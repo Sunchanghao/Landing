@@ -1,4 +1,4 @@
-# px4 UAV landing on mobile car based on vision
+# A ROS/Gazebo simulation for px4 UAV landing on mobile car based on vision
 
 
 1.roslaunch px4 px4_car.launch
