@@ -1,9 +1,3 @@
-/*
- * px4_control_cfg.h
- *
- *  Created on: 2018-5-4
- *      Author: zipout
- *///Email		  : 1554459957@qq.com
 
 #ifndef PX4_CONTROL_CFG_H_
 #define PX4_CONTROL_CFG_H_
