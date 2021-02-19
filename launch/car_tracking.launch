@@ -1,0 +1,64 @@
+<launch> 
+	
+     <arg name="marker_size" default="60" />
+    <arg name="max_new_marker_error" default="0.08" />
+    <arg name="max_track_error" default="0.1" />
+    <arg name="cam_image_topic" default="/kinect/rgb/image_raw" />
+    <arg name="cam_info_topic" default="/kinect/rgb/camera_info" />
+    <arg name="output_frame" default="/kinect_frame_optical" />
+        
+    <node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen">
+        <param name="marker_size"           type="double" value="$(arg marker_size)" />
+        <param name="max_new_marker_error"  type="double" value="$(arg max_new_marker_error)" />
+        <param name="max_track_error"       type="double" value="$(arg max_track_error)" />
+        <param name="output_frame"          type="string" value="$(arg output_frame)" />
+
+        <remap from="camera_image"  to="$(arg cam_image_topic)" />
+        <remap from="camera_info"   to="$(arg cam_info_topic)" />
+    </node>
+
+
+	<!-- 
+	二维码跟踪demo
+	search_alt_：预定搜索高度
+	markers_id_ ：ar_markers 二维码数字
+    desire_pose_x、desire_pose_y、desire_pose_z：期望的飞机相对二维码的位置
+	PidY_p：y方向p项系数
+	PidY_d：y方向d项系数
+	PidY_i：y方向i项系数
+	PidZ_p：z方向p项系数
+	PidZ_d：z方向d项系数
+	PidZ_i：z方向i项系数
+	PidYaw_p：yaw方向的p系数
+	PidYaw_d：yaw方向的d系数
+	PidYaw_i：yaw方向的i系数
+
+	关于其中的yaw角度，yaw为0度的情况是：摄像头图像左上为"0"markers时
+-->
+
+
+
+  <include file="$(find px4_control)/launch/tracking_car.launch" >
+ 	<arg name="search_alt_" value="1.5" />
+ 	<arg name="markers_id_" value="4" />
+
+        <arg name="desire_pose_x" value="3.5" />
+ 	<arg name="desire_pose_y" value="0" />
+ 	<arg name="desire_pose_z" value="0" />
+
+ 	<arg name="PidY_p" value="0.6" />
+ 	<arg name="PidY_d" value="0.04" />
+ 	<arg name="PidY_i" value="0.02" />
+ 	<arg name="PidZ_p" value="0.6" />
+ 	<arg name="PidZ_d" value="0.04" />
+ 	<arg name="PidZ_i" value="0.03" />
+ 	<arg name="PidYaw_p" value="0.4" />
+ 	<arg name="PidYaw_d" value="0.01" />
+ 	<arg name="PidYaw_i" value="0" />
+  </include>
+
+
+   <!-- rviz view /-->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ros_vision)/config/ar_track_camera.rviz"/>
+</launch>
+
