@@ -1,0 +1,13 @@
+<launch>
+	<!-- 圆心在：切offbord时飞机所在位置
+	desire_z：期望圆半径 
+	desire_Radius：期望高度-->
+
+        <arg name="desire_z" default="1" />
+        <arg name="desire_Radius" default="1" />
+	
+	<node pkg="px4_control" type="circular_node" name="circular_node" output="screen">
+		<param name="desire_z" value = "$(arg desire_z)"/>			
+		<param name="desire_Radius" value = "$(arg desire_Radius)"/>		
+	</node>
+</launch>

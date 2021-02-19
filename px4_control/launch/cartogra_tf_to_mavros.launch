@@ -1,0 +1,13 @@
+
+<launch>
+
+    <node pkg="px4_control" type="position_to_mavros_node" name="position_to_mavros" output="screen" >
+
+        <param name="target_frame_id" value="carto_odom" />
+        <param name="source_frame_id" value="base_link" />
+        <param name="output_rate" value="30" />
+        <param name="roll_obj"          value="0" />
+        <param name="pitch_obj"         value="0" />
+        <param name="yaw_obj"           value="0" />
+    </node>
+</launch>

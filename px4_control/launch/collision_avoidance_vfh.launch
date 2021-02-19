@@ -1,0 +1,6 @@
+<launch>
+	<!-- run the position_control.cpp -->
+
+	<node pkg="px4_control" type="collision_avoidance_vfh_node" name="collision_avoidance_vfh_node"  output="screen" launch-prefix="gnome-terminal --tab -e"/>
+	
+</launch>

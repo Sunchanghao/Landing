@@ -1,0 +1,72 @@
+<launch>
+	<!-- 
+	search_alt_：预定搜索高度
+	markers_id_ ：ar_markers 二维码数字
+    desire_pose_x、desire_pose_y、desire_pose_z：期望的飞机相对二维码的位置
+	PidY_p：y方向p项系数
+	PidY_d：y方向d项系数
+	PidY_i：y方向i项系数
+	PidZ_p：z方向p项系数
+	PidZ_d：z方向d项系数
+	PidZ_i：z方向i项系数
+	PidYaw_p：yaw方向的p系数
+	PidYaw_d：yaw方向的d系数
+	PidYaw_i：yaw方向的i系数
+
+	关于其中的yaw角度，yaw为0度的情况是：摄像头图像左上为"0"markers时
+
+-->
+
+        <arg name="search_alt_" default="2" />
+        <arg name="markers_id_" default="4" />
+        <arg name="desire_pose_x" default="0.20" />
+        <arg name="desire_pose_y" default="0" />
+        <arg name="desire_pose_z" default="0.16" />
+
+        <arg name="PidY_p" default="0.6" />
+        <arg name="PidY_d" default="0" />
+        <arg name="PidY_i" default="0.01" />
+        <arg name="PidZ_p" default="0.6" />
+        <arg name="PidZ_d" default="0.03" />
+        <arg name="PidZ_i" default="0.01" />
+        <arg name="PidYaw_p" default="0.4" />
+        <arg name="PidYaw_d" default="0.01" />
+        <arg name="PidYaw_i" default="0" />
+
+	<!--<node pkg="px4_control" type="tracking_quadrotor_pid_node" name="tracking_quadrotor_pid_node" output="screen">
+		<param name="search_alt_" value = "$(arg search_alt_)"/>	
+		<param name="markers_id_" value = "$(arg markers_id_)"/>
+		<param name="desire_pose_x" value = "$(arg desire_pose_x)"/>	
+		<param name="desire_pose_y" value = "$(arg desire_pose_y)"/>	
+		<param name="desire_pose_z" value = "$(arg desire_pose_z)"/>
+		<param name="PidY_p" value = "$(arg PidY_p)"/>	
+		<param name="PidY_d" value = "$(arg PidY_d)"/>	
+		<param name="PidY_i" value = "$(arg PidY_i)"/>	
+		<param name="PidZ_p" value = "$(arg PidZ_p)"/>	
+		<param name="PidZ_d" value = "$(arg PidZ_d)"/>	
+		<param name="PidZ_i" value = "$(arg PidZ_i)"/>	
+		<param name="PidYaw_p" value = "$(arg PidYaw_p)"/>	
+		<param name="PidYaw_d" value = "$(arg PidYaw_d)"/>	
+		<param name="PidYaw_i" value = "$(arg PidYaw_i)"/>	
+				
+	</node>-->
+
+       <!--使用gazebo真值数据替代二维码目标检测-->
+       <node pkg="px4_control" type="picking_gazebo_pos_node" name="picking_gazebo_pos_node" output="screen">
+		<param name="search_alt_" value = "$(arg search_alt_)"/>	
+		<param name="markers_id_" value = "$(arg markers_id_)"/>
+		<param name="desire_pose_x" value = "$(arg desire_pose_x)"/>	
+		<param name="desire_pose_y" value = "$(arg desire_pose_y)"/>	
+		<param name="desire_pose_z" value = "$(arg desire_pose_z)"/>
+		<param name="PidY_p" value = "$(arg PidY_p)"/>	
+		<param name="PidY_d" value = "$(arg PidY_d)"/>	
+		<param name="PidY_i" value = "$(arg PidY_i)"/>	
+		<param name="PidZ_p" value = "$(arg PidZ_p)"/>	
+		<param name="PidZ_d" value = "$(arg PidZ_d)"/>	
+		<param name="PidZ_i" value = "$(arg PidZ_i)"/>	
+		<param name="PidYaw_p" value = "$(arg PidYaw_p)"/>	
+		<param name="PidYaw_d" value = "$(arg PidYaw_d)"/>	
+		<param name="PidYaw_i" value = "$(arg PidYaw_i)"/>	
+				
+	</node>
+</launch>

@@ -1,0 +1,57 @@
+<launch>
+	<!-- 
+	search_alt_：预定搜索高度
+	markers_id_ ：ar_markers 二维码数字
+    desire_pose_x、desire_pose_y、desire_pose_z：期望的飞机相对降落板的位置
+	PidXY_p：x,y方向p项系数
+	PidXY_d：x,y方向d项系数
+	PidXY_i：x,y方向i项系数
+	PidZ_p：z方向p项系数
+	PidZ_d：z方向d项系数
+	PidZ_i：z方向i项系数
+	PidYaw_p：yaw方向的p系数
+	PidYaw_d：yaw方向的d系数
+	PidYaw_i：yaw方向的i系数
+
+	关于其中的yaw角度，yaw为0度的情况是：摄像头图像左上为"0"markers时
+
+-->
+
+        <arg name="search_alt_" default="0.5" />
+
+        <arg name="markers_id_" default="4" />
+
+        <arg name="desire_pose_x" default="0" />
+        <arg name="desire_pose_y" default="0" />
+        <arg name="desire_pose_z" default="1" />
+        <arg name="desire_yaw_" default="0" />
+
+        <arg name="PidXY_p" default="0.3" />
+        <arg name="PidXY_d" default="0.05" />
+        <arg name="PidXY_i" default="0.01" />
+        <arg name="PidZ_p" default="0.12" />
+        <arg name="PidZ_d" default="0" />
+        <arg name="PidZ_i" default="0.01" />
+        <arg name="PidYaw_p" default="0" />
+        <arg name="PidYaw_d" default="0" />
+        <arg name="PidYaw_i" default="0" />
+
+	<node pkg="px4_control" type="landing_quadrotor_node" name="landing_quadrotor_node" output="screen">
+		<param name="search_alt_" value = "$(arg search_alt_)"/>	
+		<param name="markers_id_" value = "$(arg markers_id_)"/>
+		<param name="desire_pose_x" value = "$(arg desire_pose_x)"/>	
+		<param name="desire_pose_y" value = "$(arg desire_pose_y)"/>	
+		<param name="desire_pose_z" value = "$(arg desire_pose_z)"/>
+		<param name="desire_yaw_" value = "$(arg desire_yaw_)"/>	
+		<param name="PidXY_p" value = "$(arg PidXY_p)"/>	
+		<param name="PidXY_d" value = "$(arg PidXY_d)"/>	
+		<param name="PidXY_i" value = "$(arg PidXY_i)"/>	
+		<param name="PidZ_p" value = "$(arg PidZ_p)"/>	
+		<param name="PidZ_d" value = "$(arg PidZ_d)"/>	
+		<param name="PidZ_i" value = "$(arg PidZ_i)"/>	
+		<param name="PidYaw_p" value = "$(arg PidYaw_p)"/>	
+		<param name="PidYaw_d" value = "$(arg PidYaw_d)"/>	
+		<param name="PidYaw_i" value = "$(arg PidYaw_i)"/>	
+			
+	</node>
+</launch>

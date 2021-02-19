@@ -1,0 +1,5 @@
+tracking_quadrotor.cpp是无人机跟踪移动平台降落的node
+tracking_quadrotor_pid.cpp是在原版pid基础上稍作修改的版本，加入了yaw的控制
+tracking_quadrotor_yolo.cpp是使用yolo作为视觉输入，同时融合深度点云的控制，需要运行ar_pose.cpp
+picking_gazebo_pos.cpp是使用gazebo提供的模型位置真值的跟踪程序，需要注意要跟踪的模型的编号
+px4pos_gazebo.cpp是测试gazebo真值订阅发布的node
