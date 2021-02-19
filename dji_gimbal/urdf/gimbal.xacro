@@ -1,0 +1,337 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <gazebo>
+   <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+     <robotNamespace>/dji_gimbal</robotNamespace>
+   </plugin>
+  </gazebo>
+
+  <xacro:property name="jdim" value=".01" />
+  <xacro:property name="jmass" value="0.01" />
+  
+  <xacro:property name="llen" value="0.03" />
+  <xacro:property name="lrad" value="${jdim/2}" />
+  <xacro:property name="lmass" value="0.01" /> 
+  
+  <xacro:property name="bx" value="0.03" />
+  <xacro:property name="by" value=".03" />
+  <xacro:property name="bz" value=".01" />
+  <xacro:property name="bmass" value="0.01" />
+
+  <xacro:property name="cpx" value="${jdim}" />
+  <xacro:property name="cpy" value="${jdim*3}" />
+  <xacro:property name="cpz" value="${llen}" />
+  <xacro:property name="cpmass" value="0.01" />
+  
+  <xacro:property name="PI" value="3.1415926535897931" />
+  <xacro:property name="PI2" value="${PI/2}" />
+  <xacro:property name="PI4" value="${PI2/2}" />
+
+  <xacro:macro name="joint_form" params="num *origin">
+      <link name="joint_${num}">
+        <collision>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <geometry>
+            <box size="${jdim} ${jdim} ${jdim}"/>
+          </geometry>
+        </collision>
+
+        <inertial>          
+          <mass value="${jmass}"/>
+          <inertia ixx="${jmass*jdim*jdim/6}"  ixy="0"  ixz="0" iyy="${jmass*jdim*jdim/6}" iyz="0" izz="${jmass*jdim*jdim/6}" />
+        </inertial>
+        
+        <visual>
+          <geometry>
+            <box size="${jdim} ${jdim} ${jdim}"/>
+          </geometry>
+          <xacro:insert_block name="origin" />
+          <material name="red">
+            <color rgba="1 0 0 0.5"/>
+          </material>
+        </visual>
+      </link>
+  </xacro:macro>
+
+  <xacro:macro name="link_form" params="num *origin">
+      <link name="link_${num}">
+        <collision>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <geometry>
+            <cylinder length="${llen}" radius="${lrad}"/>
+          </geometry>
+        </collision>
+
+        <inertial>
+          <mass value="${lmass}"/>
+          <inertia ixx="${lmass*(3*lrad*lrad+llen*llen)/12}"  ixy="0"  ixz="0" iyy="${lmass*(3*lrad*lrad+llen*llen)/12}" iyz="0" izz="${lmass*(3*lrad*lrad+llen*llen)/12}" />
+        </inertial>
+        
+        <visual>
+          <geometry>
+            <cylinder length="${llen}" radius="${lrad}"/>            
+          </geometry>
+          <xacro:insert_block name="origin" />
+          <material name="green">
+            <color rgba="0 1 0 0.5"/>
+          </material>
+        </visual>
+      </link>
+  </xacro:macro>
+
+  <xacro:macro name="base_form" params="name">
+      <link name="${name}_base_link">
+        <collision>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <geometry>
+            <box size="${bx} ${by} ${bz}"/>
+          </geometry>
+        </collision>
+
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="${bmass}"/>
+          <inertia ixx="${bmass*(bz*bz+by*by)/12}"  ixy="0"  ixz="0" iyy="${bmass*(bx*bx+by*by)/12}" iyz="0" izz="${bmass*(bz*bz+bx*bx)/12}" />
+        </inertial>
+
+        <visual>
+          <geometry>
+            <box size="${bx} ${by} ${bz}"/>
+          </geometry>
+          <material name="blue">
+            <color rgba="0 0 1 0.5"/>
+          </material>
+        </visual>
+      </link>
+  </xacro:macro>
+
+  <xacro:macro name="cam_pad_form" params="name *origin">
+      <link name="${name}_cam_pad">
+        <collision>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <geometry>
+            <box size="${cpx} ${cpy} ${cpz}"/>
+          </geometry>
+        </collision>
+
+        <inertial>
+          <mass value="${cpmass}"/>
+          <inertia ixx="${cpmass*(cpz*cpz+cpy*cpy)/12}"  ixy="0"  ixz="0" iyy="${cpmass*(cpx*cpx+cpy*cpy)/12}" iyz="0" izz="${cpmass*(cpz*cpz+cpx*cpx)/12}" />
+        </inertial>
+
+        <visual>
+          <geometry>
+            <box size="${cpx} ${cpy} ${cpz}"/>
+          </geometry>
+          <xacro:insert_block name="origin" />
+          <material name="orange">
+            <color rgba="1 1 0 0.5"/>
+          </material>
+        </visual>
+      </link>
+  </xacro:macro>
+
+  <xacro:macro name="gimbal" params="name parent">
+    
+    <link name="world"/>
+
+    <xacro:base_form name="${name}" />
+
+    <xacro:joint_form num="1">
+      <origin xyz="0 0 ${jdim/2}" rpy="0 0 0"/>
+    </xacro:joint_form>
+    <xacro:joint_form num="2">
+      <origin xyz="${-jdim/2} 0 0" rpy="0 0 0"/>
+    </xacro:joint_form>
+    <xacro:joint_form num="3">
+      <origin xyz="0 0 ${jdim/2}" rpy="0 0 0"/>
+    </xacro:joint_form>
+    <xacro:joint_form num="4">
+      <origin xyz="0 ${jdim/2} 0" rpy="0 0 0"/>
+    </xacro:joint_form>
+    <xacro:joint_form num="5">
+      <origin xyz="0 ${-jdim/2} 0" rpy="0 0 0"/>
+    </xacro:joint_form>
+    <xacro:joint_form num="6">
+      <origin xyz="${jdim/2} 0 0" rpy="0 0 0"/>
+    </xacro:joint_form>
+    <xacro:joint_form num="7">
+      <origin xyz="${jdim/2} 0 0" rpy="0 0 0"/>
+    </xacro:joint_form>
+
+    <xacro:link_form num="1">
+      <origin xyz="${-llen/2} 0 0" rpy="0 ${PI2} 0"/>
+    </xacro:link_form>
+    <xacro:link_form num="2">
+      <origin xyz="0 0 ${llen/2}" rpy="0 0 0"/>
+    </xacro:link_form>
+    <xacro:link_form num="3">
+      <origin xyz="${lrad} 0 0" rpy="${PI2} 0 0"/>
+    </xacro:link_form>
+    <xacro:link_form num="4">
+      <origin xyz="${llen/2} 0 0" rpy="0 ${PI2} 0"/>
+    </xacro:link_form>
+    <xacro:link_form num="5">
+      <origin xyz="${llen/2} 0 0" rpy="0 ${PI2} 0"/>
+    </xacro:link_form>
+
+    <xacro:cam_pad_form name="${name}">
+      <origin xyz="0 ${by/2} 0" rpy="0 0 0"/>
+    </xacro:cam_pad_form>
+    
+    <joint name="${name}_joint" type="fixed">
+      <limit effort="1000.0" velocity="0"/>
+      <origin xyz="0 0 0.05" />
+      <parent link="${parent}"/>
+      <child link="${name}_base_link"/>
+    </joint>
+        
+    <joint name="yaw" type="revolute">
+      <parent link="${name}_base_link"/>      
+      <child link="joint_1"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="100000.0" lower="-${PI-PI4}" upper="${PI-PI4}" velocity="10"/>
+      <origin xyz="0 0 ${bz/2}"/>
+    </joint>
+
+    <!--<joint name="yaw" type="continuous">
+      <parent link="${name}_base_link"/>      
+      <child link="joint_1"/>
+      <axis xyz="0 0 1"/>
+      <origin xyz="0 0 ${bz/2}"/>
+    </joint>-->
+
+    <joint name="j1_to_l1" type="fixed">
+      <limit effort="1000.0" velocity="0"/>
+      <parent link="joint_1"/>
+      <child link="link_1"/>    
+      <origin xyz="${-jdim/2} 0 ${bz/2}"/>
+    </joint>
+
+    <joint name="l1_to_j2" type="fixed">
+      <limit effort="1000.0" velocity="0"/>
+      <parent link="link_1"/>
+      <child link="joint_2"/>    
+      <origin xyz="${-llen} 0 0"/>
+    </joint>
+ 
+    <joint name="j2_to_l2" type="fixed">
+      <limit effort="1000.0" velocity="0"/>
+      <parent link="joint_2"/>
+      <child link="link_2"/>    
+      <origin xyz="${-jdim/2} 0 ${jdim/2}"/>
+    </joint>
+
+    <joint name="l2_to_j3" type="fixed">
+      <limit effort="1000.0" velocity="0"/>
+      <parent link="link_2"/>
+      <child link="joint_3"/>    
+      <origin xyz="0 0 ${llen}"/>
+    </joint>
+
+    <joint name="roll" type="revolute">
+      <parent link="joint_3"/>
+      <child link="link_3"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="1000.0" lower="-${PI-PI4}" upper="${PI-PI4}" velocity="10"/>
+      <origin xyz="${jdim/2} 0 ${jdim/2}"/>
+    </joint>
+
+    <!--<joint name="roll" type="continuous">
+      <parent link="joint_3"/>
+      <child link="link_3"/>
+      <axis xyz="1 0 0"/>
+      <origin xyz="${jdim/2} 0 ${jdim/2}"/>
+    </joint>-->
+
+    <joint name="l3_to_j4" type="fixed">
+      <limit effort="1000.0" velocity="0"/>
+      <parent link="link_3"/>
+      <child link="joint_4"/>    
+      <origin xyz="${lrad} ${llen/2} 0"/>
+    </joint>
+
+    <joint name="l3_to_j5" type="fixed">
+      <limit effort="1000.0" velocity="0"/>
+      <parent link="link_3"/>
+      <child link="joint_5"/>    
+      <origin xyz="${lrad} ${-llen/2} 0"/>
+    </joint>
+
+    <joint name="j4_to_l4" type="fixed">
+      <limit effort="1000.0" velocity="0"/>
+      <parent link="joint_4"/>
+      <child link="link_4"/>    
+      <origin xyz="${jdim/2} ${jdim/2} 0"/>
+    </joint>
+
+    <joint name="j5_to_l5" type="fixed">
+      <limit effort="1000.0" velocity="0"/>
+      <parent link="joint_5"/>
+      <child link="link_5"/>    
+      <origin xyz="${jdim/2} ${-jdim/2} 0"/>
+    </joint>
+
+    <joint name="l4_to_j6" type="fixed">
+      <limit effort="1000.0" velocity="0"/>
+      <parent link="link_4"/>
+      <child link="joint_6"/>    
+      <origin xyz="${llen} 0 0"/>
+    </joint>
+
+    <joint name="l5_to_j7" type="fixed">
+      <limit effort="1000.0" velocity="0"/>
+      <parent link="link_5"/>
+      <child link="joint_7"/>    
+      <origin xyz="${llen} 0 0"/>
+    </joint>
+
+    <joint name="pitch" type="revolute">
+      <parent link="joint_7"/>
+      <child link="${name}_cam_pad"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="1000.0" lower="-${PI-PI4}" upper="${PI-PI4}" velocity="10"/>
+      <origin xyz="${jdim/2} ${jdim/2} 0"/> 
+    </joint>
+
+    <!--<joint name="pitch" type="continuous">
+      <parent link="joint_7"/>
+      <child link="${name}_cam_pad"/>
+      <axis xyz="0 1 0"/>
+      <origin xyz="${jdim/2} ${jdim/2} 0"/> 
+    </joint>-->
+  </xacro:macro>
+
+  <transmission name="tran_yaw">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="yaw">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor1">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_pitch">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="pitch">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor2">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_roll">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="roll">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+</robot>

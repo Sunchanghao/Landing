@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<robot name="gimball" xmlns:xacro="http://www.ros.org/wiki/xacro">
+   
+    <arg name="parent" default="world"/>
+
+    <xacro:property name="M_PI" value="3.1415926535897931" />
+    
+    <xacro:include filename="$(find dji_gimbal)/urdf/gimbal.xacro" />
+    
+    <xacro:gimbal name="gim1" parent="$(arg parent)"/>
+
+    <xacro:include filename="$(find dji_gimbal)/urdf/camera.xacro" />
+    <xacro:generic_camera name="gim1_cam" parent="gim1_cam_pad" ros_topic="camera/image" cam_info_topic="camera/camera_info" update_rate="10" res_x="320" res_y="240" image_format="R8G8B8" hfov="90">
+      <origin xyz="0.00 0.025 0" rpy="0 0 0"/>
+    </xacro:generic_camera>
+    
+</robot>

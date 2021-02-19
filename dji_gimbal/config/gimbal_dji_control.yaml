@@ -1,0 +1,20 @@
+dji_gimbal:
+  # Publish all joint states -----------------------------------
+  gimbal_joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 150  
+
+  # Position Controllers ---------------------------------------
+  pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: pitch
+    pid: {p: 0.1, i: 5, d: 0.35}
+  roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: roll
+    pid: {p: 1, i: 1, d: 0.1}
+  yaw_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: yaw
+    pid: {p: 0.1, i: 5, d: 0.35}
+ 

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<robot name="arm_gimball" xmlns:xacro="http://www.ros.org/wiki/xacro">
+   
+    <arg name="parent" default="base_link"/>
+
+    <xacro:property name="M_PI" value="3.1415926535897931" />
+    
+    <xacro:include filename="$(find dji_gimbal)/urdf/arm_gimbal.xacro" />
+    
+    <xacro:gimbal name="gim2" parent="$(arg parent)">
+        <origin xyz="0 0 -0.042" rpy="0 ${M_PI} 0"/>
+    </xacro:gimbal>
+
+
+    
+</robot>

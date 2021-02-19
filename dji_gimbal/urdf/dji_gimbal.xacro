@@ -1,0 +1,279 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+  <xacro:property name="PI" value="3.1415926535897931" />
+  <xacro:property name="PI2" value="${PI/2}" />
+  <xacro:property name="PI4" value="${PI2/2}" />
+
+  <xacro:macro name="gimbal" params="name parent *origin">
+    <link name="base">
+        <collision>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <geometry>
+            <box size="0.02 0.02 0.008"/>
+          </geometry>
+        </collision>
+
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="0.01"/>
+          <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+        </inertial>
+
+        <visual>
+          <geometry>
+            <box size="0.02 0.02 0.008"/>
+          </geometry>
+          <material name="blue">
+            <color rgba="0 0 1 0.5"/>
+          </material>
+        </visual>
+    </link>
+ <gazebo reference="base">
+            <material>Gazebo/Grey</material>
+        </gazebo>
+
+    <link name="top_link">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.01 0.01"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+      </inertial>
+
+      <visual>
+        <geometry>
+          <mesh filename="package://dji_gimbal/meshes/top.dae"/>
+        </geometry>
+        <material name="red">
+          <color rgba="1 0 0 0.5"/>
+        </material>
+      </visual>
+    </link>
+
+    <link name="back_link">
+      <collision>
+        <geometry>
+          <box size="0.01 0.01 0.01"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+      </inertial>
+
+      <visual>
+        <geometry>
+          <mesh filename="package://dji_gimbal/meshes/back.dae"/>
+        </geometry>
+        <origin xyz="0 0 0.02375" rpy="${-PI2} 0 ${PI2}"/>
+        <material name="red">
+          <color rgba="1 0 0 0.5"/>
+        </material>
+      </visual>
+    </link>
+
+    <link name="roll_link">
+      <collision>
+        <geometry>
+          <box size="0.03 0.03 0.03"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+      </inertial>
+
+      <visual>
+        <geometry>
+          <box size="0.004 0.068 0.006"/>
+        </geometry>
+        <origin xyz="0 -0.001 -0.001" rpy="0 0 0"/>
+        <material name="red">
+          <color rgba="1 0 0 0.5"/>
+        </material>
+      </visual>
+    </link>
+ <gazebo reference="roll_link">
+            <material>Gazebo/Blue</material>
+        </gazebo>
+
+    <link name="left_link">
+      <collision>
+        <geometry>
+          <box size="0.03 0.03 0.03"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+      </inertial>
+
+      <visual>
+        <geometry>
+          <mesh filename="package://dji_gimbal/meshes/leftsupport.dae"/>
+        </geometry>
+        <origin xyz="-.028 0 0" rpy="${PI2} 0 0"/>
+        <material name="red">
+          <color rgba="1 0 0 0.5"/>
+        </material>
+      </visual>
+    </link>
+
+    <link name="right_link">
+      <collision>
+        <geometry>
+          <box size="0.03 0.03 0.03"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+      </inertial>
+
+      <visual>
+        <geometry>
+          <mesh filename="package://dji_gimbal/meshes/rightsupport.dae"/>
+        </geometry>
+        <origin xyz="-.028 0 0" rpy="${PI2} 0 0"/>
+        <material name="red">
+          <color rgba="1 0 0 0.5"/>
+        </material>
+      </visual>
+    </link>
+
+    <link name="cam_pad">
+      <collision>
+        <geometry>
+          <box size="0.03 0.03 0.03"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+      </inertial>
+
+      <visual>
+        <geometry>
+          <mesh filename="package://dji_gimbal/meshes/camera.dae"/>
+        </geometry>
+        <origin xyz="0.020 -0.025 0" rpy="${-PI2} ${0} ${PI2}"/>
+        <material name="red">
+          <color rgba="1 0 0 0.5"/>
+        </material>
+      </visual>
+    </link>
+        <gazebo reference="cam_pad">
+            <material>Gazebo/DarkGrey</material>
+        </gazebo>
+    
+    <joint name="world_joint" type="fixed">
+     
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="base"/>
+    </joint>
+        
+    <joint name="yaw" type="continuous">
+<limit effort="1000.0" velocity="10"/>
+      <parent link="base"/>      
+      <child link="top_link"/>
+      <axis xyz="0 0 1"/>
+      <origin xyz="0 0 0.005"/>
+    </joint>
+
+    <joint name="top_to_back" type="fixed">
+      
+      <parent link="top_link"/>
+      <child link="back_link"/>    
+      <origin xyz="0.022 0 0.009"/>
+    </joint>
+
+    <joint name="roll" type="continuous">
+<limit effort="1000.0" velocity="10"/>
+      <parent link="back_link"/>
+      <child link="roll_link"/>
+      <axis xyz="1 0 0"/>
+      <origin xyz="-0.010 0.004 0.0325"/>
+    </joint>
+
+    <joint name="roll_to_leftsupport" type="fixed">
+     
+      <parent link="roll_link"/>
+      <child link="left_link"/>    
+      <origin xyz=".001 -0.028 -.001"/>
+    </joint>
+
+    <joint name="roll_to_rightsupport" type="fixed">
+      
+      <parent link="roll_link"/>
+      <child link="right_link"/>    
+      <origin xyz=".001 0.034 -.001"/>
+    </joint>
+
+    <joint name="pitch" type="continuous">
+      <limit effort="1000.0" velocity="10"/>
+      <parent link="right_link"/>
+      <child link="cam_pad"/>
+      <axis xyz="0 1 0"/>
+      <origin xyz="-0.043 -0.012 0"/> 
+    </joint>
+  
+  <transmission name="tran_yaw">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="yaw">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_pitch">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="pitch">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_roll">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="roll">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor3">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <gazebo>
+   <plugin name="gimbal_gazebo_ros_control" filename="libgazebo_ros_control.so">
+     <robotNamespace>/dji_gimbal</robotNamespace>   
+   </plugin>
+  </gazebo>
+
+</xacro:macro>
+</robot>

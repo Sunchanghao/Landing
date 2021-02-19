@@ -1,0 +1,8 @@
+# goal point for navigation action
+geometry_msgs/Point target_pos
+---
+# position reached by navigation after the action is finished
+geometry_msgs/Point reached_pos
+---
+# distance from goal is returned as feedback
+float64 dist
