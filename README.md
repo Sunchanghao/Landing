@@ -1,7 +1,7 @@
 # UAV landing on mobile car based on vision
 
 
-1. roslaunch px4 px4_car.launch
+1.roslaunch px4 px4_car.launch
 Start the gazebo simulation and start the gimbal control.
 
 
