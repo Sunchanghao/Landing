@@ -44,18 +44,10 @@ include_directories(
 )
 
 
-add_executable(position_to_mavros_node src/position_to_mavros.cpp)
-add_executable(set_mode_node src/set_mode.cpp)
-add_executable(collision_avoidance_vfh_node src/collision_avoidance_vfh.cpp)
-add_executable(avoidance_car_vfh_node src/avoidance_car_vfh.cpp)
-add_executable(collision_avoidance_matlabvfh_node src/collision_avoidance_matlabvfh.cpp)
-add_executable(circular_node src/circular.cpp)
-add_executable(circular_car_node src/circular_car.cpp)
-add_executable(ros_nav_quadrotor_node src/ros_nav_quadrotor.cpp)
-add_executable(mission_car_offboard_node src/mission_car_offboard.cpp)
+
 add_executable(landing_quadrotor_node src/landing_quadrotor.cpp)
 add_executable(tracking_quadrotor_node src/tracking_quadrotor.cpp)
-add_executable(auto_2d_nav_node src/auto_2d_nav.cpp)
+
 add_executable(tracking_quadrotor_yolo_node src/tracking_quadrotor_yolo.cpp)
 add_executable(tracking_quadrotor_pid_node src/tracking_quadrotor_pid.cpp)
 add_executable(ar_pose src/ar_pose.cpp)
@@ -63,33 +55,8 @@ add_executable(px4pos_gazebo_node src/px4pos_gazebo.cpp)
 add_executable(picking_gazebo_pos_node src/picking_gazebo_pos.cpp)
 ## Specify libraries to link a library or executable target against
 
-target_link_libraries(position_to_mavros_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(set_mode_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(collision_avoidance_vfh_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(avoidance_car_vfh_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(collision_avoidance_matlabvfh_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(circular_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(circular_car_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(ros_nav_quadrotor_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(mission_car_offboard_node
-  ${catkin_LIBRARIES}
-)
+
+
 target_link_libraries(landing_quadrotor_node
   ${catkin_LIBRARIES}
 )
@@ -102,9 +69,7 @@ target_link_libraries(tracking_quadrotor_yolo_node
 target_link_libraries(tracking_quadrotor_pid_node
   ${catkin_LIBRARIES}
 )
-target_link_libraries(auto_2d_nav_node
-  ${catkin_LIBRARIES}
-)
+
 target_link_libraries(ar_pose
   ${catkin_LIBRARIES}
 )
