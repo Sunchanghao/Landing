@@ -1,7 +1,7 @@
 # A ROS/Gazebo simulation for px4 UAV landing on mobile car based on vision
 
 
-**1.**roslaunch px4 px4_car.launch  
+# 1. roslaunch px4 px4_car.launch  
 Start the gazebo simulation and start the gimbal control.  
 **px4_car.launch should be in the Launch folder of Firmware.**
 
@@ -14,7 +14,7 @@ git submodule update --init --recursive
 make px4_sitl_default gazebo  
 
 
-**2.**roslaunch mobot_urdf car_tracking.launch  
+# 2. roslaunch mobot_urdf car_tracking.launch  
 Start ar_track_alvar and control node. **Pay attention to the topic name of the camera**  
 
 
@@ -22,7 +22,7 @@ Start ar_track_alvar and control node. **Pay attention to the topic name of the 
 video: https://www.youtube.com/watch?v=vf8mISHC7H0  
 
 
-**Before using, please check the name and path of all packages.  
+**Before using, please check the name and path of all packages.**  
 
 **Check the name and path of the node in all launch files.**  
 
